@@ -1,0 +1,4 @@
+database dbname=queryx1_dyn
+sql queryx1_dyn.sql
+
+queryX1dyn
