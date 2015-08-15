@@ -48,7 +48,7 @@ fun main () =
 
 **Results**
 
-(1) The part of the code which the compiler is complaining about is [lines 27-33](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L27-L33) in file [queryX1dyn.ur](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur):
+The part of the code which the compiler is complaining about is [lines 27-33](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L27-L33) in file [queryX1dyn.ur](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur):
 ```
     <xml><dyn signal=
       { aFilterSignal <- signal aFilterSource
@@ -60,12 +60,9 @@ fun main () =
   end
 ```
 
-(2) The compiler is complaining, saying "have xml, need transaction". 
+**Remarks:**
 
-The error apparently is occurring in the `<dyn signal={...}>` tag, which calls `showRows aFilterSource`.
-
-
-(3) Based on the declaration of `queryX1` in `top.urs`:
+(1) Based on the declaration of `queryX1` in `top.urs`:
 
   https://github.com/urweb/urweb/blob/master/lib/ur/top.urs
 
@@ -83,27 +80,11 @@ is:
 (1) Does Ur/Web enforce some restriction on the *result* type of the code used in a `<dyn signal={...}>` tag?
 
 
-**Error in code - gives a compile error, reproduced further below:**
-
-The part of the code which the compiler is complaining about is lines 27-33:
-```
-(* file queryX1dyn.ur *)
-
-    <xml><dyn signal=    (*** LINE 27 IN ERR MSG ***)
-      { aFilterSignal <- signal aFilterSource
-        ;
-        return
-        ( showRows' aFilterSignal )
-      } 
-    /></xml>   (*** LINE 33 IN ERR MSG ***)
-  end
-```
-
 **Similarities and differences between `batch.ur` and `queryX1dyn.ur`:**
 
-*Similarity:*
+*Similarities:*
 
-The `show` function (and its auxiliary `show'` function) in `queryX1dyn.ur`...
+(1) The `show` function (and its auxiliary `show'` function) in `queryX1dyn.ur`...
 
 https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L5-L34
 
@@ -112,7 +93,7 @@ https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L5-L3
   https://github.com/urweb/urweb/blob/master/demo/batch.ur#L21-L39
 
 
-*Difference:*
+*Differences:*
 
 (1) The `show'` function in `batch.ur` apparently has result type:
 
@@ -125,7 +106,10 @@ while the `showRows'` function in `queryX1dyn.ur` apparently has result type:
 This could be a problem (and it could actually be the cause of the compile error shown below), but I'm unsure whether (or how) to change this.
 
 
-**Compile error - "have xml, need transaction":**
+**Compile error message - "have xml, need transaction":**
+
+The entire compile error message is:
+
 ```
 $ urweb -dbms postgres -db "host=localhost port=5432 user=scott password='pw' dbname=queryx1_dyn" queryX1dyn
 
@@ -167,17 +151,6 @@ Need:  transaction
 
 $ 
 ```
-
-**References:**
-
-This work is based on:
-
-(1) the Ur/Web demos Increment and Batch:
-
-  http://www.impredicative.com/ur/demo/increment.html
-
-  http://www.impredicative.com/ur/demo/batch.html
-
 
 Thanks for any help getting this to work!
 
