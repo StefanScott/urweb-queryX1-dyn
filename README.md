@@ -6,7 +6,7 @@ This code uses:
 
 - the SQL `LIKE` operator;
 
-- the function `queryX1` from (top.ur)[https://github.com/urweb/urweb/blob/master/lib/ur/top.urs#L205-L208] / top.urs .
+- the function `queryX1` from [top.ur](https://github.com/urweb/urweb/blob/master/lib/ur/top.urs#L205-L208) / top.urs .
 
 The page contains the following two elements:
 
