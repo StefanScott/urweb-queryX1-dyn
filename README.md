@@ -1,6 +1,6 @@
 **Objective**
 
-I'm trying to create a page with a `<ctextbox>` which uses allows the user to *instantly* filter the records displayed in an `<xml>` fragment below it, using:
+For this minimal example, I'm trying to create a page with a `<ctextbox>` which uses allows the user to *instantly* filter the records displayed in an `<xml>` fragment below it, using:
 
 - Ur/Web's dynamic page generation / FRP (`source`, `signal`, `<dyn>`);
 
@@ -16,25 +16,56 @@ The page contains the following two elements:
 
 - if `theFilterSource = ""`, then show *all* records from table `thing`;
 
-- otherwise, show only *filtered* records from table `thing` - ie, `WHERE thing.Nam LIKE theFilterSource`
+- otherwise, show only *filtered* records from table `thing` - ie:
+
+  `SELECT thing.Nam FROM thing WHERE  thing.Nam LIKE {[aFilterString]}`
 
 
-**Questions & Remarks:**
+**Previous, related work**
 
-(1) I *thought* that the source and signal were connected together correctly. However, there is some error, possibly involving the result type of the code used in the tag: 
+The code connecting the `source` and the `signal` is closely modeled on:
+
+(1) the Ur/Web demos "Increment" and "Batch":
+
+  http://www.impredicative.com/ur/demo/increment.html
+
+  http://www.impredicative.com/ur/demo/batch.html
+
+(2) the Ur/Web `<cselect>` test:
+
+  https://github.com/urweb/urweb/blob/master/tests/cselect.ur
+
+(3) a very minimal (correctly working) example which just instantly echoes the contents of a `<ctextbox>` directly below it:
 ```
-  <dyn signal={...}>
+fun main () =
+  s <- source "";
+  return 
+  <xml><body>
+    <ctextbox source={s}/><br/>
+    <dyn signal={s <- signal s; return <xml>{[s]}</xml>}/>
+  </body></xml>
 ```
 
-(2) Does Ur/Web enforce some restriction on the *result* type of the code used in a `<dyn signal={...}>` tag?
+**Results**
 
+(1) The part of the code which the compiler is complaining about is [lines 27-33](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L27-L33) in file [queryX1dyn.ur](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur):
+```
+    <xml><dyn signal=
+      { aFilterSignal <- signal aFilterSource
+        ;
+        return
+        ( showRows' aFilterSignal )
+      } 
+    /></xml>
+  end
+```
 
-(3) The compiler is complaining, saying "have xml, need transaction". 
+(2) The compiler is complaining, saying "have xml, need transaction". 
 
 The error apparently is occurring in the `<dyn signal={...}>` tag, which calls `showRows aFilterSource`.
 
 
-(4) Based on the declaration of `queryX1` in `top.urs`:
+(3) Based on the declaration of `queryX1` in `top.urs`:
 
   https://github.com/urweb/urweb/blob/master/lib/ur/top.urs
 
@@ -46,6 +77,10 @@ is:
 ```
   transaction (xml ctx [] [])
 ```
+
+**Questions**
+
+(1) Does Ur/Web enforce some restriction on the *result* type of the code used in a `<dyn signal={...}>` tag?
 
 
 **Error in code - gives a compile error, reproduced further below:**
@@ -143,20 +178,6 @@ This work is based on:
 
   http://www.impredicative.com/ur/demo/batch.html
 
-(2) the Ur/Web `<cselect>` test:
-
-  https://github.com/urweb/urweb/blob/master/tests/cselect.ur
-
-(3) a working, minimal example which simply echoes the contents of a <ctextbox> directly below it:
-```
-fun main () =
-  s <- source "";
-  return 
-  <xml><body>
-    <ctextbox source={s}/><br/>
-    <dyn signal={s <- signal s; return <xml>{[s]}</xml>}/>
-  </body></xml>
-```
 
 Thanks for any help getting this to work!
 
