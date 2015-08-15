@@ -157,7 +157,7 @@ This work is based on:
 
   http://www.impredicative.com/ur/demo/batch.html
 
-(2) the Ur/Web <cselect> test:
+(2) the Ur/Web `<cselect>` test:
 
   https://github.com/urweb/urweb/blob/master/tests/cselect.ur
 
@@ -172,7 +172,7 @@ fun main () =
   </body></xml>
 ```
 
-Thanks for any help!
+Thanks for any help getting this to work!
 
 ###
 
