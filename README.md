@@ -25,17 +25,11 @@ The page contains the following two elements:
 
 The code connecting the `source` and the `signal` is closely modeled on:
 
-(1) the Ur/Web demos "Increment" and "Batch":
+(1) the Ur/Web [Increment](http://www.impredicative.com/ur/demo/increment.html) and [Batch](http://www.impredicative.com/ur/demo/batch.html) demos;
 
-  http://www.impredicative.com/ur/demo/increment.html
+(2) the Ur/Web [`<cselect>`](https://github.com/urweb/urweb/blob/master/tests/cselect.ur) test;
 
-  http://www.impredicative.com/ur/demo/batch.html
-
-(2) the Ur/Web `<cselect>` test:
-
-  https://github.com/urweb/urweb/blob/master/tests/cselect.ur
-
-(3) a very minimal (correctly working) example which just instantly echoes the contents of a `<ctextbox>` directly below it:
+(3) a very minimal (and correctly working) example which just instantly echoes the contents of a `<ctextbox>` directly below it:
 ```
 fun main () =
   s <- source "";
@@ -64,8 +58,6 @@ The part of the code which the compiler is complaining about is [lines 27-33](ht
 
 (1) Looking at `queryX1` in [top.urs](https://github.com/urweb/urweb/blob/master/lib/ur/top.urs#L205-L208) / [top.ur](https://github.com/urweb/urweb/blob/master/lib/ur/top.ur#L284-L289):
 
-  https://github.com/urweb/urweb/blob/master/lib/ur/top.urs
-
 I believe that the result type of `fun showRows aFilterSource` is `transaction xml`.
 
 This *may or may not* be compatible with what is expected by the containing `<dyn signal={...}>` tag, or the containing `<xml>` tag!
@@ -76,18 +68,11 @@ This *may or may not* be compatible with what is expected by the containing `<dy
 (1) Does Ur/Web enforce some restriction on the *result* type of the code used in a `<dyn signal={...}>` tag?
 
 
-**Similarities and differences between `batch.ur` and `queryX1dyn.ur`:**
+**Similarities and differences between `queryX1dyn.ur` and previous work (Batch and Increment demos):**
 
 *Similarities:*
 
-(1) The `show` function (and its auxiliary `show'` function) in `queryX1dyn.ur`...
-
-https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L5-L34
-
-...are very closely modeled on the `show` function (and its auxiliary `show'` function) in the Ur/Web demo "Batch":
-
-  https://github.com/urweb/urweb/blob/master/demo/batch.ur#L21-L39
-
+(1) The `show` function (and its auxiliary `show'` function) in [`queryX1dyn.ur`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L5-L34) are very closely modeled on the `show` function (and its auxiliary `show'` function) in the Ur/Web demo [Batch](https://github.com/urweb/urweb/blob/master/demo/batch.ur#L21-L39).
 
 *Differences:*
 
