@@ -1,4 +1,4 @@
-**Objective**
+**Objective:**
 
 For this minimal example, I'm trying to create a page with a `<ctextbox>` which uses allows the user to *instantly* filter the records displayed in an `<xml>` fragment below it, using:
 
@@ -22,7 +22,7 @@ The page contains only the following two elements:
   `SELECT thing.Nam FROM thing WHERE  thing.Nam LIKE {[aFilterString]}`
 
 
-**Previous, related work**
+**Previous, related work:**
 
 The code connecting the `source` and the `signal` is closely modeled on:
 
@@ -30,7 +30,7 @@ The code connecting the `source` and the `signal` is closely modeled on:
 
 (2) the Ur/Web [`<cselect>`](https://github.com/urweb/urweb/blob/master/tests/cselect.ur) test;
 
-(3) a very minimal (and correctly working) example which just instantly echoes the contents of a `<ctextbox>` directly below it:
+(3) a very minimal (and correctly working) FRP example which just instantly echoes the contents of a `<ctextbox>` directly below it:
 ```
 fun main () =
   s <- source "";
@@ -41,7 +41,7 @@ fun main () =
   </body></xml>
 ```
 
-**Results**
+**Results:**
 
 The part of the code which the compiler is complaining about is [lines 27-33](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L27-L33) in file [queryX1dyn.ur](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur):
 ```
@@ -62,7 +62,7 @@ The part of the code which the compiler is complaining about is [lines 27-33](ht
 This *may or may not* be compatible with what is expected by the containing `<dyn signal={...}>` tag, or the containing `<xml>` tag!
 
 
-**Questions**
+**Questions:**
 
 (1) Does Ur/Web impose some restriction on the *result* type of the code used in a `<dyn signal={...}>` tag?
 
@@ -86,7 +86,7 @@ while the `showRows'` function in `queryX1dyn.ur` apparently has result type:
 This could be a problem (and it could actually be the cause of the compile error shown below), but I'm unsure whether (or how) to change this.
 
 
-**Compile error message - "have xml, need transaction":**
+**Compile error message `Have xml / Need: transaction`:**
 
 The entire compile error message is:
 
