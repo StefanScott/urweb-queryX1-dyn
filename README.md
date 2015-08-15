@@ -44,7 +44,7 @@ is:
 
 **Error in code - gives a compile error, reproduced further below:**
 
-The compiler is complaining about this part of the code:
+The part of the code which the compiler is complaining about is lines 27-33:
 ```
 (* file queryX1dyn.ur *)
 
