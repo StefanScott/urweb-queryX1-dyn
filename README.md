@@ -63,7 +63,15 @@ The above code is very closely modeled on the `show` function (and its auxiliary
 
 However, there are some differences:
 
-(1) The `show'` function in `batch.ur` apparently has result type **`xml`** - but the `showRows'` function in `queryX1dyn.ur` apparently has result type **`transaction xml`**.
+(1) The `show'` function in `batch.ur` apparently has result type:
+
+ **`xml`**
+
+*versus*
+
+the `showRows'` function in `queryX1dyn.ur` apparently has result type:
+
+ **`transaction xml`** .
 
 
 **Compile error - "have xml, need transaction":**
