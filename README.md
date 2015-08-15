@@ -62,18 +62,14 @@ The part of the code which the compiler is complaining about is [lines 27-33](ht
 
 **Remarks:**
 
-(1) Based on the declaration of `queryX1` in `top.urs`:
+(1) Looking at `queryX1` in [top.urs](https://github.com/urweb/urweb/blob/master/lib/ur/top.urs#L205-L208) / [top.ur](https://github.com/urweb/urweb/blob/master/lib/ur/top.ur#L284-L289):
 
   https://github.com/urweb/urweb/blob/master/lib/ur/top.urs
 
-I believe that the result type of:
-```
-  fun showRows aFilterSource
-```
-is:
-```
-  transaction (xml ctx [] [])
-```
+I believe that the result type of `fun showRows aFilterSource` is `transaction xml`.
+
+This *may or may not* be compatible with what is expected by the containing `<dyn signal={...}>` tag, or the containing `<xml>` tag!
+
 
 **Questions**
 
