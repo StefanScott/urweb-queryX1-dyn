@@ -42,45 +42,12 @@ is:
 ```
 
 
-**Code - gives a compile error, reproduced in (7) below:**
-```
-(* file queryX1.dyn.urp *)
+**Error in code - gives a compile error, reproduced further below:**
 
-database dbname=queryx1_dyn
-sql queryx1_dyn.sql
-
-queryX1dyn
-```
----
+The compiler is complaining about this part of the code:
 ```
 (* file queryX1dyn.ur *)
 
-table thing : {
-  Nam : string
-}
-
-fun showRows aFilterSource = 
-  let 
-    fun showRows' aFilterString = 
-      case aFilterString of
-          "" =>
-            queryX1 
-               ( SELECT thing.Nam 
-                 FROM   thing )
-              ( fn r => 
-                <xml>
-                  {[r.Nam]}<br/>
-                </xml> )
-        | _ =>
-            queryX1 
-              ( SELECT thing.Nam 
-                FROM   thing
-                WHERE  thing.Nam LIKE {[aFilterString]} )
-              ( fn r => 
-                <xml>
-                  {[r.Nam]}<br/>
-                </xml> )
-  in
     <xml><dyn signal=    (*** LINE 27 IN ERR MSG ***)
       { aFilterSignal <- signal aFilterSource
         ;
@@ -89,19 +56,7 @@ fun showRows aFilterSource =
       } 
     /></xml>   (*** LINE 33 IN ERR MSG ***)
   end
-
-fun main () =
-  theFilterSource <- source ""
-  ;
-  return 
-  <xml><body>
-    <ctextbox
-      source={theFilterSource}
-    /><br/>
-    {showRows theFilterSource}
-  </body></xml>
 ```
----
 
 
 **Compile error - "have xml, need transaction":**
