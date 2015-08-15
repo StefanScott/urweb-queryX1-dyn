@@ -1,8 +1,8 @@
 **Objective**
 
-I'm trying to create a page with a `<ctextbox>` which allows the user to *instantly* filter the records displayed in an `<xml>` fragment below it.
+I'm trying to create a page with a `<ctextbox>` which uses allows the user to *instantly* filter the records displayed in an `<xml>` fragment below it, using:
 
-This code uses:
+- Ur/Web's dynamic page generation / FRP (`source`, `signal`, `<dyn>`);
 
 - the SQL `LIKE` operator;
 
