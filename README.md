@@ -13,7 +13,7 @@ The page contains only the following two elements:
 
 (1) `<ctextbox source={theFilterSource}/>`
 
-(2) (a function call [`{showRows theFilterSource}`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L44) returning) an `<xml>` fragment containing a `<dyn signal={...}/>` tag, which should show either:
+(2) a function call [`{showRows theFilterSource}`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L44) returning an `<xml>` fragment containing a `<dyn signal={...}/>` tag, which should either:
 
 - if `theFilterSource = ""`, then show *all* records from table `thing`;
 
