@@ -4,11 +4,12 @@ For this minimal example, I'm trying to create a page with a `<ctextbox>` which 
 
 - Ur/Web's dynamic page generation / FRP (`source`, `signal`, `<dyn>`);
 
-- the SQL `LIKE` operator;
+- the function `queryX1` from [top.urs](https://github.com/urweb/urweb/blob/master/lib/ur/top.urs#L205-L208) / [top.ur](https://github.com/urweb/urweb/blob/master/lib/ur/top.ur#L284-L289);
 
-- the function `queryX1` from [top.urs](https://github.com/urweb/urweb/blob/master/lib/ur/top.urs#L205-L208) / [top.ur](https://github.com/urweb/urweb/blob/master/lib/ur/top.ur#L284-L289) .
+- Ur/Web's [SQL `LIKE` operator](http://www.impredicative.com/pipermail/ur/2015-August/002189.html).
 
-The page contains the following two elements:
+
+The page contains only the following two elements:
 
 (1) `<ctextbox source={theFilterSource}/>`
 
@@ -56,19 +57,17 @@ The part of the code which the compiler is complaining about is [lines 27-33](ht
 
 **Remarks:**
 
-(1) Looking at `queryX1` in [top.urs](https://github.com/urweb/urweb/blob/master/lib/ur/top.urs#L205-L208) / [top.ur](https://github.com/urweb/urweb/blob/master/lib/ur/top.ur#L284-L289):
-
-I believe that the result type of `fun showRows aFilterSource` is `transaction xml`.
+(1) Looking at `queryX1` in [top.urs](https://github.com/urweb/urweb/blob/master/lib/ur/top.urs#L205-L208) / [top.ur](https://github.com/urweb/urweb/blob/master/lib/ur/top.ur#L284-L289), I believe that the result type of `fun showRows aFilterSource` is `transaction xml`.
 
 This *may or may not* be compatible with what is expected by the containing `<dyn signal={...}>` tag, or the containing `<xml>` tag!
 
 
 **Questions**
 
-(1) Does Ur/Web enforce some restriction on the *result* type of the code used in a `<dyn signal={...}>` tag?
+(1) Does Ur/Web impose some restriction on the *result* type of the code used in a `<dyn signal={...}>` tag?
 
 
-**Similarities and differences between `queryX1dyn.ur` and previous work (Batch and Increment demos):**
+**Similarities and differences between `queryX1dyn.ur` and previous work:**
 
 *Similarities:*
 
