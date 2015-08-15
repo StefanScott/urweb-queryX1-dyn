@@ -81,7 +81,7 @@ while the `showRows'` function in `queryX1dyn.ur` apparently has result type:
 
   **`transaction xml`** .
 
-This could a problem (and it could be causing the compile error), but I'm unsure whether (or how) to change this.
+This could be a problem (and it could actually be the cause of the compile error shown below), but I'm unsure whether (or how) to change this.
 
 
 **Compile error - "have xml, need transaction":**
