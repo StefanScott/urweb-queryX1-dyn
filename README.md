@@ -57,6 +57,13 @@ The part of the code which the compiler is complaining about is lines 27-33:
     /></xml>   (*** LINE 33 IN ERR MSG ***)
   end
 ```
+The above code is very closely modeled on the `show` function (and its auxiliary `show'` function), in the Ur/Web demo "Batch":
+
+  https://github.com/urweb/urweb/blob/master/demo/batch.ur#L21-L39
+
+However, there are some differences:
+
+(1) The `show'` function in `batch.ur` apparently has result type `xbody` (or `xml`?) - but the `showRows'` function in `queryX1dyn.ur` apparently has result type `transaction (xml ctx [] []))`.
 
 
 **Compile error - "have xml, need transaction":**
