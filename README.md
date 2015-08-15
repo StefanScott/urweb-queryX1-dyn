@@ -1,6 +1,12 @@
 **Objective**
 
-I'm trying to create a page with a `<ctextbox>` which allows the user to *instantly* filter the records displayed in a table (using the SQL `LIKE` operator).
+I'm trying to create a page with a `<ctextbox>` which allows the user to *instantly* filter the records displayed in an `<xml>` fragment below it.
+
+This code uses:
+
+- the SQL `LIKE` operator;
+
+- the function `queryX1` from (top.ur)[https://github.com/urweb/urweb/blob/master/lib/ur/top.urs#L205-L208] / top.urs .
 
 The page contains the following two elements:
 
