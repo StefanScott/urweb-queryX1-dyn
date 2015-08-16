@@ -208,7 +208,7 @@ Thanks for any help getting this to work!
 
 ###
 
-<a id="observation_1">**An intersting idiom:**</a>
+<a id="observation_1">**An interesting "idiom":**</a>
 
 In particular, I have consciously copied an interesting "idiom" which I believe is found in the Ur/Web [Increment](http://www.impredicative.com/ur/demo/increment.html) and [Batch](http://www.impredicative.com/ur/demo/batch.html) demos, involving the first part of the `signal` attribute of the `dyn` tag (and, in the case of the Batch demo, an interplay with the type expected by the `show` function):
 
@@ -254,5 +254,5 @@ I am not sure why this appears to be working correctly.
 
 I might be tempted to make a wild conjecture that the `;` after `aFilterSignal <- signal aFilterSource` is perhaps somehow "unpacking" `aFilterSignal`, converting it from a value of some "monadic" type `signal t` to a value of some "simpler" `t`, in order to allow it to be used as an argument to `showRows'`, which as we know expects a value of a "simpler" type `string` and not a value of a "monadic" type.
 
-However, [as Istvan Chung helpfully explained in an earlier thread, you cannot "unpack" or "unbox" a value from a "monadic" type](http://www.impredicative.com/pipermail/ur/2015-July/002079.html) - so I have simply accepted that this "interesting idiom" in the Batch demo does indeed work, and I have used it as a guideline grabbing the source, connecting it to a signal, and passing it to a function in the present project.
+However, [as Istvan Chung helpfully explained in an earlier thread on the Mailing list, you cannot "unpack" or "unbox" a value from a "monadic" type](http://www.impredicative.com/pipermail/ur/2015-July/002079.html) - so I have simply accepted that this interesting "idiom" in the Batch demo does indeed work, and I have used it as a guideline grabbing the source, connecting it to a signal, and passing it to a function in the present project.
 
