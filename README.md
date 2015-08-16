@@ -36,7 +36,7 @@ The code connecting the `source` and the `signal` is closely modeled on:
 
 **Results:**
 
-The part of the code which the compiler is complaining about is [lines 27-33](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L27-L33) in file [queryX1dyn.ur](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur):
+The compile error says `Have: xml` vs `Need: transaction` for [lines 27-33](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L27-L33) in file [queryX1dyn.ur](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur):
 ```
     <xml><dyn signal=
       { aFilterSignal <- signal aFilterSource
