@@ -27,7 +27,7 @@ The page contains only the following two elements:
 
 The code connecting the `source` and the `signal` is closely modeled on:
 
-(1) the Ur/Web [Increment](http://www.impredicative.com/ur/demo/increment.html) and [Batch](http://www.impredicative.com/ur/demo/batch.html) demos; [See Observation (1) below](#observation_1)
+(1) the Ur/Web [Increment](http://www.impredicative.com/ur/demo/increment.html) and [Batch](http://www.impredicative.com/ur/demo/batch.html) demos; [(Also, see Observation (1) below.)](#observation_1)
 
 (2) the Ur/Web [`<cselect>`](https://github.com/urweb/urweb/blob/master/tests/cselect.ur) test;
 
@@ -52,12 +52,17 @@ The part of the code which the compiler is complaining about is [lines 27-33](ht
 
 (1) Looking at `queryX1` in [top.urs](https://github.com/urweb/urweb/blob/master/lib/ur/top.urs#L205-L208) / [top.ur](https://github.com/urweb/urweb/blob/master/lib/ur/top.ur#L284-L289), I believe that the result type of `fun showRows aFilterSource` is `transaction xml`.
 
-This *may or may not* be compatible with what is expected by the containing `<dyn signal={...}>` tag, or the containing `<xml>` tag!
-
-
 **Questions:**
 
-(1) Does Ur/Web impose some restriction on the *result* type of the code used in a `<dyn signal={...}>` tag?
+(1) Is the result type of `fun showRows aFilterSource` (apparently `transaction xml`) compatible with:
+
+- what is expected by the `<dyn signal={...}>` tag containing this function call; and 
+
+- what is expected by the "parent" `<xml>` tag containing the `<dyn>` tag?
+
+(2) Does Ur/Web impose some restriction on the *result* type of the code used in a `<dyn signal={...}>` tag?
+
+It seems very possible to me that answering the above questions might help understand the compile error (shown [below](#compile_error)).
 
 
 **Similarities and differences between `queryX1dyn.ur` and previous work:**
@@ -101,7 +106,7 @@ Meanwhile, in the present example `queryX1dy`, the `<ctextbox>`:
 - the `<ctextbox>` in the present example does *not* perform an `rpc` call (since I believe this is unnecessary, because no data needs to be *written* on the server-side).
 
 
-**Compile error message `Have: xml / Need: transaction`:**
+<a id="compile error">**Compile error message `Have: xml / Need: transaction`:***</a>
 
 The entire compile error message is:
 
