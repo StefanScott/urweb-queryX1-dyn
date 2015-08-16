@@ -244,13 +244,13 @@ since I would be afraid the types would conflict.
 
 But *based on the actual working code in the Buffer demo*, I felt confident writing my code in a similar fashion:
 
-(a) [calling `signal` on `aFilterSource` and assigning the result to `aFilterSignal`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L28)
+(a) [calling `signal` on `aFilterSource` and assigning the result to `aFilterSignal`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L28); and then
 
-(b) and then using `aFilterSignal` essentially as a ("simple") `string` type, for the argument being passed into [(auxiliary) function `showRows'`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L31).
+(b) using `aFilterSignal` essentially as a ("simple") `string` type, for the argument being passed into [(auxiliary) function `showRows'`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L31).
 
 I am not sure why this appears to be working correctly. 
 
 I might be tempted to make a wild conjecture that the `;` after `aFilterSignal <- signal aFilterSource` is perhaps somehow "unpacking" ("unboxing") `aFilterSignal`, converting it from a value of some "monadic" type `signal t` to a value of some "simpler" type `t`, in order to allow it to be used as an argument to `showRows'`, which as we know expects a value of a "simpler" type `string` and not a value of a "monadic" type.
 
-However, [as Istvan Chung helpfully explained in an earlier thread on the Mailing list, you cannot "unpack" or "unbox" a value from a "monadic" type](http://www.impredicative.com/pipermail/ur/2015-July/002079.html) - so I have simply accepted that this interesting "idiom" in the Batch demo does indeed work, and I have used it as a guideline for grabbing the source, connecting it to a signal, and passing it to a function in the present project.
+However, [as Istvan Chung helpfully explained in an earlier thread on the Mailing list, you cannot "unpack" or "unbox" a value from a "monadic" type](http://www.impredicative.com/pipermail/ur/2015-July/002079.html) - so I have simply accepted that this interesting "idiom" in the Batch demo does indeed work, and I have used it as a guideline in the present project for grabbing the source, connecting it to a signal, and passing it to a function (which expects a value of type `string`!).
 
