@@ -185,17 +185,17 @@ However, I am *not completely sure* about this, since there are a couple of diff
 
 However, I believe that in the case of a `<ctextbox>` having a `source` attribute, no `on_` event is necessary - as apparently demonstrated by the very minimal (and correctly working) Ur/Web FRP example [urweb-cselect-echo](https://github.com/StefanScott/urweb-cselect-echo).
 
-(b) The `onclick` event in the demos also perform an `rpc` call, while the present project does not.
+(b) The `onclick` event in the demos also performs an `rpc` call, while the present project does not.
 
 However, I believe that no `rpc` call is necessary in the present project, because this project only *reads* data from the server, while the demos *write* data on the server.
 
-Again, I am not completely certain about this - because although the present project does not perform a (transactional) write on the server, it *does* perform a transactional "read" on the server.
+Again, I am not completely certain that no `rpc` call is needed in the present project - because although this project does not perform a (transactional) write on the server, it *does* perform a (transactional) "read" on the server.
 
 *(3) Likely cause of error:*
 
-It seems more likely that the error is a simpler one - not involving some mis-connection in the wiring between the source and the signal, but instead involving:
+It seems more likely that the error is a simpler one - not involving some mis-connection in the "wiring" between the source and the signal, but instead involving:
 
-- (most likely, as these are the line numbers flagged by the compile error) a conflict between the type of [return ( showRows' aFilterSignal )](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L31) inside the `dyn` tag in function `showRows` (or in some containing, "parent" `<xml>` fragment within that same function); or
+- (most likely, as these are the line numbers flagged by the compile error) a conflict between the type of [return ( showRows' aFilterSignal )](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L30-L31) inside the `dyn` tag in function `showRows` (or in some containing, "parent" `<xml>` fragment within that same function); or
 
 - (less likely?) possibly some incompatibility at the location where [{showRows theFilterSource}](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L44) is inserted into the `<xml>` returned by the `main` function.
 
@@ -206,7 +206,7 @@ Thanks for any help getting this to work!
 
 <a id="observation_1">**Observation (1)**</a>
 
-In particular, I have consciously copied an interesting "idiom" which I believe is found in both Ur/Web demos [Increment](http://www.impredicative.com/ur/demo/increment.html) and [Batch](http://www.impredicative.com/ur/demo/batch.html) demos:
+In particular, I have consciously copied an interesting "idiom" which I believe is found in the Ur/Web [Increment](http://www.impredicative.com/ur/demo/increment.html) and [Batch](http://www.impredicative.com/ur/demo/batch.html) demos, involving the first part of the `signal` attribute of the `dyn` tag (and, in the case of the Batch demo, a connection with the type expected by the `show` function):
 
 - [`<dyn signal={n <- signal src; return <xml>{[n]}</xml>}/>`](https://github.com/urweb/urweb/blob/master/demo/increment.ur#L8)
 
@@ -244,7 +244,7 @@ But based on the *actual working code in the Buffer demo*, I felt confident writ
 
 [<dyn signal={aFilterSignal <- signal aFilterSource; return (showRows' aFilterSignal)}/>](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L27-L33)
 
-(b) and then using `aFilterSignal` essentially as a ("simple") `string` type, for the argument being passed into [(auxiliary) function `showRows`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L7-L25)
+(b) and then using `aFilterSignal` essentially as a ("simple") `string` type, for the argument being passed into [(auxiliary) function `showRows'`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L7-L25)
 
-I am not sure why this apparently works. (I would like to conjecture that the `;` after `aFilterSignal <- signal aFilterSource` is somehow "unpacking" `aFilterSignal`, converting it from a value of some "monadic" type `signal t` to a value of some "simpler" `t`, in order to allow it to be used as an argument to `showRows`, which as we know expects a value of a "simpler" type `string` and not a value of a "monadic" type... but I have been told that you cannot "unpack" a value from a "monadic" type - so I will just accept that this apparently works for some reason.)
+I am not sure why this apparently works. (I would like to conjecture that the `;` after `aFilterSignal <- signal aFilterSource` is perhaps somehow "unpacking" `aFilterSignal`, converting it from a value of some "monadic" type `signal t` to a value of some "simpler" `t`, in order to allow it to be used as an argument to `showRows'`, which as we know expects a value of a "simpler" type `string` and not a value of a "monadic" type... but [as Istvan Chung helpfully explained in an earlier thread, you cannot "unpack" or "unbox" a value from a "monadic" type](http://www.impredicative.com/pipermail/ur/2015-July/002079.html) - so I have simply accepted that code in the Batch demo does indeed work, and used it as a guideline for the present project.)
 
