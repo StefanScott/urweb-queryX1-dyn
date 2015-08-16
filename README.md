@@ -71,13 +71,13 @@ It seems very possible to me that answering the above questions might help to un
 
 *Similarities:*
 
-(1) The [`showRows` function](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L5-L34) (and its auxiliary [`showRows'` function](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L7-L25)) in [`queryX1dyn.ur`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L5-L34) are very closely modeled on the [`show` function (and its auxiliary `show'` function) in the Ur/Web demo Batch](https://github.com/urweb/urweb/blob/master/demo/batch.ur#L21-L39).
+(1) The [`showRows` function](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L5-L34) (and its auxiliary [`showRows'` function](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L7-L25)) in [`queryX1dyn.ur`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L5-L34) are very closely modeled on the [`show` function (and its auxiliary `show'` function) in the Ur/Web Batch demo](https://github.com/urweb/urweb/blob/master/demo/batch.ur#L21-L39).
 
 [(For more details, see **An interesting idiom** at the end of this ReadMe.)](#observation_1)
 
 *Differences:*
 
-(1) The `show` function in the Ur/Web demo [Batch](https://github.com/urweb/urweb/blob/master/demo/batch.ur#L21-L39) apparently has result type:
+(1) The `show` function in the Ur/Web [Batch demo](https://github.com/urweb/urweb/blob/master/demo/batch.ur#L21-L39) apparently has result type:
 
   **`xml`**
 
@@ -105,7 +105,7 @@ Therefore, it makes sense that:
 
 - the [`onclick` event of the `<button>`](https://github.com/urweb/urweb/blob/master/demo/increment.ur#L9) in the [Increment demo](https://github.com/urweb/urweb/blob/master/demo/increment.ur)
 
-would both be somewhat "longer", involving an initial `rpc` call (to write the data on the server).
+would both be somewhat "longer", involving an initial `rpc` call (to write the data on the server), lacking in the present project.
 
 Summarizing, there are two differences between the present example [`queryX1dyn`](https://github.com/StefanScott/urweb-queryX1-dyn) and the Batch and Increment demos:
 
