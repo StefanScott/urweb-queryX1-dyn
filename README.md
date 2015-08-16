@@ -56,9 +56,9 @@ The part of the code which the compiler is complaining about is [lines 27-33](ht
 
 (1) Is the result type of [`( showRows' aFilterSignal )`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L31) (apparently `transaction xml`) compatible with all three of the following "contexts":
 
-(a) what is expected by the [`<dyn signal={...}>`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L27-L33) tag containing this function call; and 
+(a) what is expected by the [`<dyn signal={...}>`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L27-L33) tag containing this function call; and/or
 
-(b) what is expected by [the "parent" `<xml>` tag](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L27-L33) containing the `<dyn>` tag; and
+(b) what is expected by [the "parent" `<xml>` tag](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L27-L33) containing the `<dyn>` tag; and/or
 
 (c) what is expected by [the `<xml><body>` tag in the `main` function](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L40-L45) where this value is used?
 
@@ -95,22 +95,22 @@ The present example `queryX1dy` is different in two ways:
 
 Therefore, it makes sense that:
 
-- [the `onclick` event of the `<button>`](https://github.com/urweb/urweb/blob/master/demo/batch.ur#L67) in the [Batch demo](https://github.com/urweb/urweb/blob/master/demo/batch.ur), and 
+- the [`onclick` event of the `<button>`](https://github.com/urweb/urweb/blob/master/demo/batch.ur#L67) in the [Batch demo](https://github.com/urweb/urweb/blob/master/demo/batch.ur), and 
 
 - the [`onclick` event of the `<button>`](https://github.com/urweb/urweb/blob/master/demo/increment.ur#L9) in the [Increment demo](https://github.com/urweb/urweb/blob/master/demo/increment.ur)
 
 would both be somewhat "longer", involving an initial `rpc` call (to write the data on the server).
 
-Meanwhile, in the present example `queryX1dy`, the `<ctextbox>`:
+Summarizing, there are two difference between the present example [`queryX1dyn`](https://github.com/StefanScott/urweb-queryX1-dyn) and the Batch and Increment demos:
 
-- does *not* have an `on_` event (since, as the previous minimal example [urweb-cselect-echo](https://github.com/StefanScott/urweb-cselect-echo) demonstrates, in the case of a `<ctextbox>` the source updates the signal *automatically*, with no need for, eg, an `onkeyup` event); and
+- the `<ctextbox>` does *not* have an `on_` event (since, as the previous minimal example [urweb-cselect-echo](https://github.com/StefanScott/urweb-cselect-echo) demonstrates, in the case of a `<ctextbox>` the source updates the signal *automatically*, with no need for, eg, an `onkeyup` event); and
 
 - the `<ctextbox>` in the present example does *not* perform an `rpc` call (since I believe this is unnecessary, because no data needs to be *written* on the server-side).
 
 
-<a id="compile_error">**Compile error message `Have: xml / Need: transaction`:***</a>
+<a id="compile_error">**Compile error message `Have: xml` vs `Need: transaction`:**</a>
 
-The entire compile error message is:
+The complete compile error message is reproduced here:
 
 ```
 $ urweb -dbms postgres -db "host=localhost port=5432 user=scott password='pw' dbname=queryx1_dyn" queryX1dyn
@@ -155,29 +155,45 @@ $
 ```
 
 
-**Discussion:**
+**Possible cause(s) of error:**
 
-We can see that there is a record unification error involving incompatible constructors `Have: xml / Need: transaction`.
+*(1) Expected types in various contexts? (more likely)*
 
-This apparently involves the `signal` attribute of the `<dyn>` tag - which means it might also involve the value of the function call which that tag returns - ie: [{showRows theFilterSource}](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L44).
+We can see that there is a record unification error involving incompatible constructors `Have: xml` vs `Need: transaction`.
 
-Because the present project is closely modeled on the Ur/Web [Increment](http://www.impredicative.com/ur/demo/increment.html) and [Batch](http://www.impredicative.com/ur/demo/batch.html) demos, I am fairly confident that the connection between the source and the signal has been established correctly. 
+This apparently involves [the `signal` attribute of the `<dyn>` tag](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L27-L33) - which means it might also involve:
 
-However, I am not completely sure about this, since there are a couple of differences between the present project and those demos:
+- what is expected by the [`<dyn signal={...}>`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L27-L33) tag containing this function call; and/or 
 
-(1) The demos involve a `<button>` with an `onclick` event, while the present project involves a `<ctextbox>` with no event 
+- what is expected by [the "parent" `<xml>` tag](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L27-L33) containing the `<dyn>` tag; and/or
+
+- what is expected by [the `<xml><body>` tag in the `main` function](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L40-L45) where this value is used; and/or
+
+- some possible (general, universal) Ur/Web restriction on the *result* type of the code used in a `<dyn signal={...}>` tag.
+
+*(2) Need to perform an `rpc` call? (less likely)*
+
+Because the present project is closely modeled on the Ur/Web [Increment](http://www.impredicative.com/ur/demo/increment.html) and [Batch](http://www.impredicative.com/ur/demo/batch.html) demos, I am *fairly sure* that the connection between the source and the signal has been established correctly. 
+
+However, I am *not completely sure* about this, since there are a couple of differences between the present project and those demos:
+
+(a) The demos involve a `<button>` with an `onclick` event, while the present project involves a `<ctextbox>` with no event.
 
 However, I believe that in the case of a `<ctextbox>` having a `source` attribute, no `on_` event is necessary - as apparently demonstrated by the very minimal (and correctly working) Ur/Web FRP example [urweb-cselect-echo](https://github.com/StefanScott/urweb-cselect-echo).
 
-(2) The `onclick` event in the demos also perform an `rpc` call. 
+(b) The `onclick` event in the demos also perform an `rpc` call, while the present project does not.
 
 However, I believe that no `rpc` call is necessary in the present project, because this project only *reads* data from the server, while the demos *write* data on the server.
 
-It seems more likely that there is some simpler error, eg:
+Again, I am not completely certain about this - because although the present project does not perform a (transactional) write on the server, it *does* perform a transactional "read" on the server.
 
-- (most likely, as these are the line numbers flagged by the compile error) a conflict between the type of [return ( showRows' aFilterSignal )](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L31) inside the `dyn` tag in function `showRows`; or
+*(3) Likely cause of error:*
 
-- (less likely?) possibly some incompatibility at the side where [{showRows theFilterSource}](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L44) is inserted into the `<xml>` returned by `main`.
+It seems more likely that the error is a simpler one - not involving some mis-connection in the wiring between the source and the signal, but instead involving:
+
+- (most likely, as these are the line numbers flagged by the compile error) a conflict between the type of [return ( showRows' aFilterSignal )](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L31) inside the `dyn` tag in function `showRows` (or in some containing, "parent" `<xml>` fragment within that same function); or
+
+- (less likely?) possibly some incompatibility at the location where [{showRows theFilterSource}](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L44) is inserted into the `<xml>` returned by the `main` function.
 
 
 Thanks for any help getting this to work!
