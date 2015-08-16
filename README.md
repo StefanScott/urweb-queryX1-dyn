@@ -27,7 +27,7 @@ The page contains only the following two elements:
 
 The code connecting the `source` and the `signal` is closely modeled on:
 
-(1) the Ur/Web [Increment](http://www.impredicative.com/ur/demo/increment.html) and [Batch](http://www.impredicative.com/ur/demo/batch.html) demos; [(Also, see **An interesting idiom** at the end of this ReadMe.)](#observation_1)
+(1) the Ur/Web [Increment](http://www.impredicative.com/ur/demo/increment.html) and [Batch](http://www.impredicative.com/ur/demo/batch.html) demos; [(For more details, see **An interesting idiom** at the end of this ReadMe.)](#observation_1)
 
 (2) the Ur/Web [`<cselect>`](https://github.com/urweb/urweb/blob/master/tests/cselect.ur) test;
 
