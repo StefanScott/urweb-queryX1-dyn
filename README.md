@@ -81,7 +81,7 @@ while the `show` function in [`queryX1dyn.ur`](https://github.com/StefanScott/ur
 
   **`transaction xml`** .
 
-This *might* be a problem (and it *might* actually be the cause of the compile error shown below), but I'm unsure whether (or how) to change this.
+This *might* be a problem (and it *might* actually be the cause of the [compile error shown below](#compile_error)), but I'm unsure whether (or how) to change this.
 
 (2) The [Batch demo](https://github.com/urweb/urweb/blob/master/demo/batch.ur) involves a [`<button>` with an `onclick` event](https://github.com/urweb/urweb/blob/master/demo/batch.ur#L67) and the [Increment demo](https://github.com/urweb/urweb/blob/master/demo/increment.ur) also involves a [`<button>` with an `onclick` event](https://github.com/urweb/urweb/blob/master/demo/increment.ur#L9).
 
@@ -106,7 +106,7 @@ Meanwhile, in the present example `queryX1dy`, the `<ctextbox>`:
 - the `<ctextbox>` in the present example does *not* perform an `rpc` call (since I believe this is unnecessary, because no data needs to be *written* on the server-side).
 
 
-<a id="compile error">**Compile error message `Have: xml / Need: transaction`:***</a>
+<a id="compile_error">**Compile error message `Have: xml / Need: transaction`:***</a>
 
 The entire compile error message is:
 
