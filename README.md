@@ -179,7 +179,7 @@ Thanks for any help getting this to work!
 
 <a id="observation_1">**Observation (1)**</a>
 
-In particular, I have consciously copied an interesting "idiom" which I believe is found in both of these demos:
+In particular, I have consciously copied an interesting "idiom" which I believe is found in both Ur/Web demos [Increment](http://www.impredicative.com/ur/demo/increment.html) and [Batch](http://www.impredicative.com/ur/demo/batch.html) demos:
 
 - [`<dyn signal={n <- signal src; return <xml>{[n]}</xml>}/>`](https://github.com/urweb/urweb/blob/master/demo/increment.ur#L8)
 
@@ -201,7 +201,7 @@ Also observe the following interesting interplay between the types in the second
 
 which seems (to me) to indicate that `signal` takes something of type `source t` and returns something of type `signal t`.
 
-(c) Meanwhile, judging by the `case of` expression in [the (auxiliary) function `show`](https://github.com/urweb/urweb/blob/master/demo/batch.ur#L23-L33), this function appears to be defined to take an argument either of the form `Nil` or of the form `Cons ((id, a), ls)` - ie it does *not* appear to take something of type `source t`, but instead of a ("simpler") type `t`.
+(c) Meanwhile, judging by the `case of` expression in [the (auxiliary) function `show` in the Batch demo](https://github.com/urweb/urweb/blob/master/demo/batch.ur#L23-L33), this function appears to be defined to take an argument either of the form `Nil` or of the form `Cons ((id, a), ls)` - ie it does *not* appear to take something of type `source t`, but instead of a ("simpler") type `t`.
 
 So, based on *my reading of the manual*, I would not have felt confident using the "idiom" described above, involving:
 
