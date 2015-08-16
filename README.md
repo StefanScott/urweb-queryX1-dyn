@@ -1,6 +1,6 @@
 **Objective:**
 
-For this minimal example, I'm trying to create a page with a `<ctextbox>` which uses allows the user to *instantly* filter the records displayed in an `<xml>` fragment below it, using:
+I'm trying to create a minimal example of a page with a `<ctextbox>` which uses allows the user to *instantly* filter the records displayed in an `<xml>` fragment below it, using:
 
 - Ur/Web's dynamic page generation / FRP (`source`, `signal`, `<dyn>`);
 
@@ -8,6 +8,7 @@ For this minimal example, I'm trying to create a page with a `<ctextbox>` which 
 
 - Ur/Web's [SQL `LIKE` operator](http://www.impredicative.com/pipermail/ur/2015-August/002189.html).
 
+This would provide simple "live" filtering of recordsets, and possibly also lay the groundwork for a data-bound type-ahead / auto-complete widget.
 
 The page contains only the following two elements:
 
@@ -75,18 +76,26 @@ This *may or may not* be compatible with what is expected by the containing `<dy
 
 *Differences:*
 
-(1) The `show'` function in `batch.ur` apparently has result type:
+(1) The `show` function (and its auxiliary `show'` function) in the Ur/Web demo [Batch](https://github.com/urweb/urweb/blob/master/demo/batch.ur#L21-L39) apparently has result type:
 
   **`xml`**
 
-while the `showRows'` function in `queryX1dyn.ur` apparently has result type:
+while the `show` function (and its auxiliary `show'` function) in [`queryX1dyn.ur`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L5-L34) apparently has result type:
 
   **`transaction xml`** .
 
 This could be a problem (and it could actually be the cause of the compile error shown below), but I'm unsure whether (or how) to change this.
 
+(2) The [Batch demo](https://github.com/urweb/urweb/blob/master/demo/batch.ur) involves a [`<button>` with an `onclick` event](https://github.com/urweb/urweb/blob/master/demo/batch.ur#L67) and the [Increment demo](https://github.com/urweb/urweb/blob/master/demo/increment.ur) also involves a [`<button>` with an `onclick` event](https://github.com/urweb/urweb/blob/master/demo/increment.ur#L9).
 
-**Compile error message `Have xml / Need: transaction`:**
+The present example `queryX1dy` is different in two ways:
+
+(a) Instead of having a <button> on the page, it has a <ctextbox> on the page, which receives the user's input, thus changing the `source <- theFilterString`.
+
+(b) The `onclick` event in both of those previous demos also *updates* some data on the server (batch-inserting records, or incrementing a sequence, respectively). But the current project `queryX1dyn` *does not update* any data on the server: it merely gets some data from the server. (Of course, even though the demos do a "write" and the current project merely does a "read", *both* operations are still *transactional*, since they involve accessing the database on the server.)
+
+
+**Compile error message `Have: xml / Need: transaction`:**
 
 The entire compile error message is:
 
