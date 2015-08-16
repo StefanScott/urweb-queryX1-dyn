@@ -106,7 +106,7 @@ Meanwhile, in the present example `queryX1dy`, the `<ctextbox>`:
 
 - does *not* have an `on_` event (since, as the previous minimal example @@@urweb-ctextbox-echo@@@ demonstrates, the source updates the signal automatically, with no need for, eg, an `onkeyup` event); and
 
-- the <ctextbox> in the present example does not perform an `rpc` call - since I believe this is unnecessary, because no data needs to be *written* on the server-side.
+- the `<ctextbox>` in the present example does *not* perform an `rpc` call - since I believe this is unnecessary, because no data needs to be *written* on the server-side.
 
 
 **Compile error message `Have: xml / Need: transaction`:**
