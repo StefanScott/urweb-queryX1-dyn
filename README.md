@@ -1,6 +1,6 @@
 **Objective:**
 
-I'm trying to create a minimal example of a page with a `<ctextbox>` which uses allows the user to *instantly* filter the records displayed in an `<xml>` fragment below it, using:
+I'm trying to create a minimal example of a page with a `<ctextbox>` which will allow the user to *instantly* filter the records displayed in an `<xml>` fragment below it, using:
 
 - Ur/Web's dynamic page generation / FRP (`source`, `signal`, `<dyn>`);
 
@@ -8,15 +8,15 @@ I'm trying to create a minimal example of a page with a `<ctextbox>` which uses 
 
 - Ur/Web's [SQL `LIKE` operator](http://www.impredicative.com/pipermail/ur/2015-August/002189.html).
 
-This would provide simple "live" filtering of recordsets, and possibly also lay the groundwork for a data-bound type-ahead / auto-complete widget.
+This would provide simple "live" filtering of recordsets, and possibly also lay the groundwork for later developing a data-bound type-ahead / auto-complete widget.
 
 The page contains only the following two elements:
 
-(1) `<ctextbox source={theFilterSource}/>`
+(1) a [`<ctextbox source={theFilterSource}/>`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L41-L43)
 
 (2) a function call [`{showRows theFilterSource}`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L44) returning an `<xml>` fragment containing a `<dyn signal={...}/>` tag, which should either:
 
-- if `theFilterSource = ""`, then show *all* records from table `thing`;
+- show *all* records from table `thing` (if `theFilterSource = ""`);
 
 - otherwise, show only *filtered* records from table `thing` - ie:
 
@@ -31,16 +31,7 @@ The code connecting the `source` and the `signal` is closely modeled on:
 
 (2) the Ur/Web [`<cselect>`](https://github.com/urweb/urweb/blob/master/tests/cselect.ur) test;
 
-(3) a very minimal (and correctly working) FRP example which just instantly echoes the contents of a `<ctextbox>` directly below it:
-```
-fun main () =
-  s <- source "";
-  return 
-  <xml><body>
-    <ctextbox source={s}/><br/>
-    <dyn signal={s <- signal s; return <xml>{[s]}</xml>}/>
-  </body></xml>
-```
+(3) a very minimal (and correctly working) Ur/Web FRP example [urweb-cselect-echo](https://github.com/StefanScott/urweb-cselect-echo) which just instantly echoes the contents of a `<ctextbox>`, directly below the `<ctextbox>` itself.
 
 **Results:**
 
@@ -104,7 +95,7 @@ would both be somewhat "longer", involving an initial `rpc` call (to write the d
 
 Meanwhile, in the present example `queryX1dy`, the `<ctextbox>`:
 
-- does *not* have an `on_` event (since, as the previous minimal example @@@urweb-ctextbox-echo@@@ demonstrates, the source updates the signal automatically, with no need for, eg, an `onkeyup` event); and
+- does *not* have an `on_` event (since, as the previous minimal example [urweb-cselect-echo](https://github.com/StefanScott/urweb-cselect-echo) demonstrates, the source updates the signal *automatically*, with no need for, eg, an `onkeyup` event); and
 
 - the `<ctextbox>` in the present example does *not* perform an `rpc` call - since I believe this is unnecessary, because no data needs to be *written* on the server-side.
 
