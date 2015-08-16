@@ -64,7 +64,7 @@ The part of the code which the compiler is complaining about is [lines 27-33](ht
 
 (2) Does Ur/Web impose some (general, universal) restriction on the *result* type of the code used in a `<dyn signal={...}>` tag?
 
-It seems very possible to me that answing the above questions might help to understand (and resolve) the compile error (shown [below](#compile_error)).
+It seems very possible to me that answing the above questions might help to understand (and resolve) the compile error (reproduced in full [below](#compile_error)).
 
 
 **Similarities and differences between `queryX1dyn.ur` and previous work:**
@@ -105,11 +105,11 @@ Therefore, it makes sense that:
 
 would both be somewhat "longer", involving an initial `rpc` call (to write the data on the server).
 
-Summarizing, there are two difference between the present example [`queryX1dyn`](https://github.com/StefanScott/urweb-queryX1-dyn) and the Batch and Increment demos:
+Summarizing, there are two differences between the present example [`queryX1dyn`](https://github.com/StefanScott/urweb-queryX1-dyn) and the Batch and Increment demos:
 
 - the `<ctextbox>` does *not* have an `on_` event (since, as the previous minimal example [urweb-cselect-echo](https://github.com/StefanScott/urweb-cselect-echo) demonstrates, in the case of a `<ctextbox>` the source updates the signal *automatically*, with no need for, eg, an `onkeyup` event); and
 
-- the `<ctextbox>` in the present example does *not* perform an `rpc` call (since I believe this is unnecessary, because data is only *read* from the server-side, not *written*).
+- the `<ctextbox>` in the present example does *not* perform an `rpc` call (since I believe this is unnecessary, because data is only *read from* the server-side, not *written to* the server-side).
 
 
 <a id="compile_error">**Compile error message `Have: xml` vs `Need: transaction`:**</a>
@@ -195,9 +195,9 @@ Again, I am not completely certain that no `rpc` call is needed in the present p
 
 It seems more likely that the error is a simpler one - not involving some mis-connection in the "wiring" between the source and the signal, but instead involving:
 
-- (most likely, as these are the line numbers flagged by the compile error) a conflict between the type of [return ( showRows' aFilterSignal )](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L30-L31) inside the `dyn` tag in function `showRows` (or in some containing, "parent" `<xml>` fragment within that same function); or
+- (most likely, since the compile error flags [lines 27-33 of queryX1dyn.ur](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L27-L33)) a conflict between the type of the value [return ( showRows' aFilterSignal )](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L30-L31) versus what the `dyn` tag in function `showRows` expects (what some "parent" `<xml>` fragment within that same function expects); or
 
-- (less likely?) possibly some incompatibility at the location where [{showRows theFilterSource}](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L44) is inserted into the `<xml>` returned by the `main` function.
+- (less likely, because the compile error doesn't mention these lines?) possibly some incompatibility between [{showRows theFilterSource}](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L44) and what `<xml>` in the `main` function expects.
 
 
 Thanks for any help getting this to work!
