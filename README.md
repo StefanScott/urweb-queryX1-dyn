@@ -50,19 +50,21 @@ The part of the code which the compiler is complaining about is [lines 27-33](ht
 
 **Remarks:**
 
-(1) Looking at `queryX1` in [top.urs](https://github.com/urweb/urweb/blob/master/lib/ur/top.urs#L205-L208) / [top.ur](https://github.com/urweb/urweb/blob/master/lib/ur/top.ur#L284-L289), I believe that the result type of `fun showRows aFilterSource` is `transaction xml`.
+(1) Looking at `queryX1` in [top.urs](https://github.com/urweb/urweb/blob/master/lib/ur/top.urs#L205-L208) / [top.ur](https://github.com/urweb/urweb/blob/master/lib/ur/top.ur#L284-L289), I believe that the result type of [`fun showRows aFilterSource`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L5-L34) is `transaction xml`.
 
 **Questions:**
 
-(1) Is the result type of `fun showRows aFilterSource` (apparently `transaction xml`) compatible with:
+(1) Is the result type of [`( showRows' aFilterSignal )`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L31) (apparently `transaction xml`) compatible with all three of the following "contexts":
 
-- what is expected by the `<dyn signal={...}>` tag containing this function call; and 
+(a) what is expected by the [`<dyn signal={...}>`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L27-L33) tag containing this function call; and 
 
-- what is expected by the "parent" `<xml>` tag containing the `<dyn>` tag?
+(b) what is expected by [the "parent" `<xml>` tag](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L27-L33) containing the `<dyn>` tag; and
 
-(2) Does Ur/Web impose some restriction on the *result* type of the code used in a `<dyn signal={...}>` tag?
+(c) what is expected by [the `<xml><body>` tag in the `main` function](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L40-L45) where this value is used?
 
-It seems very possible to me that answering the above questions might help understand the compile error (shown [below](#compile_error)).
+(2) Does Ur/Web impose some (general, universal) restriction on the *result* type of the code used in a `<dyn signal={...}>` tag?
+
+It seems very possible to me that answing the above questions might help to understand (and resolve) the compile error (shown [below](#compile_error)).
 
 
 **Similarities and differences between `queryX1dyn.ur` and previous work:**
