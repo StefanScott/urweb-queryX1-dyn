@@ -92,7 +92,7 @@ The present example `queryX1dy` is different in two ways:
 
 (a) Instead of having a `<button>` on the page, it has a [`<ctextbox source={theFilterSource}>`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L41-L43) on the page, which receives the user's input, thus changing [`theFilterSource`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L37).
 
-(b) The `onclick` event in both of those previous demos also *updates* some data on the server (batch-inserting records, or incrementing a sequence, respectively). But the current project `queryX1dyn` *does not update* any data on the server: it merely gets some data from the server. (Of course, even though the demos do a "write" and the current project merely does a "read", *both* operations are still *transactional*, since they involve accessing the database on the server.)
+(b) The `onclick` event in both of those previous demos also *write* some data on the server (batch-inserting records, or incrementing a sequence, respectively). But the current project `queryX1dyn` *does not write* any data on the server: it merely *reads* some data from the server. (Of course, even though the demos do a "write" while the current project merely does a "read", both the read and write are still *transactional*, since they both involve *accessing* the database on the server.)
 
 
 **Compile error message `Have: xml / Need: transaction`:**
