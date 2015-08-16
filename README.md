@@ -27,7 +27,7 @@ The page contains only the following two elements:
 
 The code connecting the `source` and the `signal` is closely modeled on:
 
-(1) the Ur/Web [Increment](http://www.impredicative.com/ur/demo/increment.html) and [Batch](http://www.impredicative.com/ur/demo/batch.html) demos;
+(1) the Ur/Web [Increment](http://www.impredicative.com/ur/demo/increment.html) and [Batch](http://www.impredicative.com/ur/demo/batch.html) demos [See Observation below](#observation);
 
 (2) the Ur/Web [`<cselect>`](https://github.com/urweb/urweb/blob/master/tests/cselect.ur) test;
 
@@ -176,4 +176,48 @@ It seems more likely that there is some simpler error, eg:
 Thanks for any help getting this to work!
 
 ###
+
+<a id="contact_form">**Observation**</a>
+
+In particular, I have consciously copied an interesting "idiom" which I believe is found in both of these demos:
+
+- [`<dyn signal={n <- signal src; return <xml>{[n]}</xml>}/>`](https://github.com/urweb/urweb/blob/master/demo/increment.ur#L8)
+
+- [`<dyn signal={ls <- signal lss; return <xml><table><tr><th>Id</th><th>A</th></tr>{show' ls}</table></xml>}`](https://github.com/urweb/urweb/blob/master/demo/batch.ur#L35)
+
+Observe how in both cases:
+
+- the expression *before* the semi-colon in the `signal` attribute of the `<dyn>` tag performs a call to `signal` on a `source` (`src` resp. `lss`) and then "assigns" the result to a new "variable" (`n` resp. `ls`); and
+
+- the expression *after* the semi-colon uses the newly "assigned" "variable" to return some `<xml>`.
+
+Also observe the following interesting interplay between the types in the second case (the Batch demo): 
+
+(a) The [function call `{show' ls}`](https://github.com/urweb/urweb/blob/master/demo/batch.ur#L37) applies (auxiliary) function `show` to the "variable" `ls` - which was "assigned" earlier in the expression [`ls <- signal lss;...`](https://github.com/urweb/urweb/blob/master/demo/batch.ur#L35)
+
+(b) Page 44 of the [manual](http://www.impredicative.com/ur/manual.pdf) has the declaration:
+
+  `val signal : t ::: Type → source t → signal t`
+
+which seems (to me) to indicate that `signal` takes something of type `source t` and returns something of type `signal t`.
+
+(c) Meanwhile, judging by the `case of` expression in [the (auxiliary) function `show`](https://github.com/urweb/urweb/blob/master/demo/batch.ur#L23-L33), this function appears to be defined to take an argument either of the form `Nil` or of the form `Cons ((id, a), ls)` - ie it does *not* appear to take something of type `source t`, but instead of a ("simpler") type `t`.
+
+So, based on *my reading of the manual*, I would not have felt confident using the "idiom" described above, involving:
+
+- [`ls <- signal lss;...`](https://github.com/urweb/urweb/blob/master/demo/batch.ur#L35) and
+
+- [`{show' ls}`](https://github.com/urweb/urweb/blob/master/demo/batch.ur#L37)
+
+since I would be afraid the types would conflict.
+
+But based on the *actual working code in the Buffer demo*, I felt confident writing my code in a similar fashion:
+
+(a) calling `signal` on `aFilterSource` to get `aFilterSignal`
+
+[<dyn signal={aFilterSignal <- signal aFilterSource; return (showRows' aFilterSignal)}/>](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L27-L33)
+
+(b) and then using `aFilterSignal` essentially as a ("simple") `string` type, for the argument being passed into [(auxiliary) function `showRows`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L7-L25)
+
+I am not sure why this apparently works. (I would like to conjecture that the `;` after `aFilterSignal <- signal aFilterSource` is somehow "unpacking" `aFilterSignal`, converting it from a value of some "monadic" type `signal t` to a value of some "simpler" `t`, in order to allow it to be used as an argument to `showRows`, which as we know expects a value of a "simpler" type `string` and not a value of a "monadic" type... but I have been told that you cannot "unpack" a value from a "monadic" type - so I will just accept that this apparently works for some reason.)
 
