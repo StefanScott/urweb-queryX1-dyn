@@ -90,7 +90,7 @@ This could be a problem (and it could actually be the cause of the compile error
 
 The present example `queryX1dy` is different in two ways:
 
-(a) Instead of having a <button> on the page, it has a <ctextbox> on the page, which receives the user's input, thus changing the `source <- theFilterString`.
+(a) Instead of having a `<button>` on the page, it has a [`<ctextbox source={theFilterSource}>`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L41-L43) on the page, which receives the user's input, thus changing [`theFilterSource`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L37).
 
 (b) The `onclick` event in both of those previous demos also *updates* some data on the server (batch-inserting records, or incrementing a sequence, respectively). But the current project `queryX1dyn` *does not update* any data on the server: it merely gets some data from the server. (Of course, even though the demos do a "write" and the current project merely does a "read", *both* operations are still *transactional*, since they involve accessing the database on the server.)
 
