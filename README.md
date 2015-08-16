@@ -8,7 +8,7 @@ I'm trying to create a minimal example of a page with a `<ctextbox>` which will 
 
 - Ur/Web's [SQL `LIKE` operator](http://www.impredicative.com/pipermail/ur/2015-August/002189.html).
 
-This would provide simple "live" filtering of recordsets, and possibly also lay the groundwork for later developing a data-bound type-ahead / auto-complete widget.
+This would provide simple "live" filtering of recordsets, and possibly also lay the groundwork for later developing [a data-bound type-ahead / auto-complete widget](http://www.impredicative.com/pipermail/ur/2015-July/002047.html).
 
 The page contains only the following two elements:
 
@@ -16,11 +16,11 @@ The page contains only the following two elements:
 
 (2) a function call [`{showRows theFilterSource}`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L44) returning an `<xml>` fragment containing a `<dyn signal={...}/>` tag, which should either:
 
-- show *all* records from table `thing` (if `theFilterSource = ""`);
+- [show *all* records from table `thing`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L11-L12) (if `theFilterSource = ""`);
 
 - otherwise, show only *filtered* records from table `thing` - ie:
 
-  `SELECT thing.Nam FROM thing WHERE  thing.Nam LIKE {[aFilterString]}`
+  [`SELECT thing.Nam FROM thing WHERE  thing.Nam LIKE {[aFilterString]}`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L19-L21)
 
 
 **Previous, related work:**
@@ -54,7 +54,7 @@ The part of the code which the compiler is complaining about is [lines 27-33](ht
 
 **Questions:**
 
-(1) Is the result type of [`( showRows' aFilterSignal )`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L31) (apparently `transaction xml`) compatible with all three of the following "contexts":
+(1) Is the result type of [`( showRows' aFilterSignal )`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L31) (apparently `transaction xml`) compatible with all three of the following parent / containting "contexts":
 
 (a) what is expected by the [`<dyn signal={...}>`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L27-L33) tag containing this function call; and/or
 
@@ -71,7 +71,7 @@ It seems very possible to me that answing the above questions might help to unde
 
 *Similarities:*
 
-(1) The `show` function (and its auxiliary `show'` function) in [`queryX1dyn.ur`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L5-L34) are very closely modeled on the `show` function (and its auxiliary `show'` function) in the Ur/Web demo [Batch](https://github.com/urweb/urweb/blob/master/demo/batch.ur#L21-L39).
+(1) The [`showRows` function](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L5-L34) (and its auxiliary [`showRows'` function](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L7-L25)) in [`queryX1dyn.ur`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L5-L34) are very closely modeled on the [`show` function (and its auxiliary `show'` function) in the Ur/Web demo Batch](https://github.com/urweb/urweb/blob/master/demo/batch.ur#L21-L39).
 
 *Differences:*
 
@@ -89,9 +89,13 @@ This *might* be a problem (and it *might* actually be the cause of the [compile 
 
 The present example `queryX1dy` is different in two ways:
 
-(a) Instead of having a `<button>` on the page, it has a [`<ctextbox source={theFilterSource}>`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L41-L43) on the page, which receives the user's input, thus automatically changing [`theFilterSource`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L37).
+(a) Instead of having a `<button>` on the page, it has a [`<ctextbox source={theFilterSource}>`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L41-L43), which receives the user's input, thus automatically changing [`theFilterSource`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L37).
 
-(b) The `onclick` event in both of those previous demos also *writes* some data on the server (batch-inserting records, or incrementing a sequence, respectively). But the present project `queryX1dyn` *does not write* any data on the server: it merely *reads* some data from the server. (Of course, even though the demos do a "write" while the present project merely does a "read", both the "read" and the "write" are still *transactional*, since they both involve *accessing* the database on the server.)
+(b) The `onclick` event in the Increment and Batch demos also *writes* some data on the server (batch-inserting records, or incrementing a sequence, respectively). 
+
+But the present project `queryX1dyn` *does not write* any data on the server: it merely *reads* some data from the server. 
+
+(Of course, even though the demos do a "write" while the present project merely does a "read", both the "read" and the "write" are still *transactional*, since they both involve *accessing* the database on the server.)
 
 Therefore, it makes sense that:
 
@@ -105,7 +109,7 @@ Summarizing, there are two difference between the present example [`queryX1dyn`]
 
 - the `<ctextbox>` does *not* have an `on_` event (since, as the previous minimal example [urweb-cselect-echo](https://github.com/StefanScott/urweb-cselect-echo) demonstrates, in the case of a `<ctextbox>` the source updates the signal *automatically*, with no need for, eg, an `onkeyup` event); and
 
-- the `<ctextbox>` in the present example does *not* perform an `rpc` call (since I believe this is unnecessary, because no data needs to be *written* on the server-side).
+- the `<ctextbox>` in the present example does *not* perform an `rpc` call (since I believe this is unnecessary, because data is only *read* from the server-side, not *written*).
 
 
 <a id="compile_error">**Compile error message `Have: xml` vs `Need: transaction`:**</a>
