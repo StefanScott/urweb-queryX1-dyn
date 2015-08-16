@@ -73,7 +73,7 @@ It seems very possible to me that answering the above questions might help to un
 
 (1) The [`showRows` function](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L5-L34) (and its auxiliary [`showRows'` function](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L7-L25)) in [`queryX1dyn.ur`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L5-L34) are very closely modeled on the [`show` function (and its auxiliary `show'` function) in the Ur/Web demo Batch](https://github.com/urweb/urweb/blob/master/demo/batch.ur#L21-L39).
 
-[(Also, see **An interesting idiom** at the end of this ReadMe.)](#observation_1)
+[(For more details, see **An interesting idiom** at the end of this ReadMe.)](#observation_1)
 
 *Differences:*
 
