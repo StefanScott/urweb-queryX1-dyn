@@ -92,7 +92,21 @@ The present example `queryX1dy` is different in two ways:
 
 (a) Instead of having a `<button>` on the page, it has a [`<ctextbox source={theFilterSource}>`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L41-L43) on the page, which receives the user's input, thus changing [`theFilterSource`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L37).
 
-(b) The `onclick` event in both of those previous demos also *write* some data on the server (batch-inserting records, or incrementing a sequence, respectively). But the current project `queryX1dyn` *does not write* any data on the server: it merely *reads* some data from the server. (Of course, even though the demos do a "write" while the current project merely does a "read", both the read and write are still *transactional*, since they both involve *accessing* the database on the server.)
+(b) The `onclick` event in both of those previous demos also *writes* some data on the server (batch-inserting records, or incrementing a sequence, respectively). But the current project `queryX1dyn` *does not write* any data on the server: it merely *reads* some data from the server. (Of course, even though the demos do a "write" while the current project merely does a "read", both the read and write are still *transactional*, since they both involve *accessing* the database on the server.)
+
+Therefore, it makes sense that:
+
+- [the `onclick` event of the `<button>`](https://github.com/urweb/urweb/blob/master/demo/batch.ur#L67) in the [Batch demo](https://github.com/urweb/urweb/blob/master/demo/batch.ur), and 
+
+- the [`onclick` event of the `<button>`](https://github.com/urweb/urweb/blob/master/demo/increment.ur#L9) in the [Increment demo](https://github.com/urweb/urweb/blob/master/demo/increment.ur)
+
+would both be somewhat "longer", involving an initial `rpc` call (to write the data on the server).
+
+Meanwhile, in the present example `queryX1dy`, the `<ctextbox>`:
+
+- does *not* have an `on_` event (since, as the previous minimal example @@@urweb-ctextbox-echo@@@ demonstrates, the source updates the signal automatically, with no need for, eg, an `onkeyup` event); and
+
+- the <ctextbox> in the present example does not perform an `rpc` call - since I believe this is unnecessary, because no data needs to be *written* on the server-side.
 
 
 **Compile error message `Have: xml / Need: transaction`:**
