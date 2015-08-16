@@ -31,7 +31,7 @@ The code connecting the `source` and the `signal` is closely modeled on:
 
 (2) the Ur/Web [`<cselect>`](https://github.com/urweb/urweb/blob/master/tests/cselect.ur) test;
 
-(3) a very minimal (and correctly working) Ur/Web FRP example [urweb-cselect-echo](https://github.com/StefanScott/urweb-cselect-echo) which just instantly echoes the contents of a `<ctextbox>`, directly below the `<ctextbox>` itself.
+(3) a very minimal (and correctly working) Ur/Web FRP example [urweb-ctextbox-echo](https://github.com/StefanScott/urweb-ctextbox-echo) which just instantly echoes the contents of a `<ctextbox>`, directly below the `<ctextbox>` itself.
 
 
 **Results:**
@@ -109,7 +109,7 @@ would both be somewhat "longer", involving an initial `rpc` call (to write the d
 
 Summarizing, there are two differences between the present example [`queryX1dyn`](https://github.com/StefanScott/urweb-queryX1-dyn) and the Batch and Increment demos:
 
-- the `<ctextbox>` does *not* have an `on_` event (since, as the previous minimal example [urweb-cselect-echo](https://github.com/StefanScott/urweb-cselect-echo) demonstrates, in the case of a `<ctextbox>` the source updates the signal *automatically*, with no need for, eg, an `onkeyup` event); and
+- the `<ctextbox>` does *not* have an `on_` event (since, as the previous minimal example [urweb-ctextbox-echo](https://github.com/StefanScott/urweb-ctextbox-echo) demonstrates, in the case of a `<ctextbox>` the source updates the signal *automatically*, with no need for, eg, an `onkeyup` event); and
 
 - the `<ctextbox>` in the present example does *not* perform an `rpc` call (since I believe this is unnecessary, because data is only *read from* the server-side, not *written to* the server-side).
 
@@ -185,7 +185,7 @@ However, I am *not completely sure* about this, since there are a couple of diff
 
 (a) The demos involve a `<button>` with an `onclick` event, while the present project involves a `<ctextbox>` with no event.
 
-However, I believe that in the case of a `<ctextbox>` having a `source` attribute, no `on_` event is necessary - as apparently demonstrated by the very minimal (and correctly working) Ur/Web FRP example [urweb-cselect-echo](https://github.com/StefanScott/urweb-cselect-echo).
+However, I believe that in the case of a `<ctextbox>` having a `source` attribute, no `on_` event is necessary - as apparently demonstrated by the very minimal (and correctly working) Ur/Web FRP example [urweb-ctextbox-echo](https://github.com/StefanScott/urweb-ctextbox-echo).
 
 (b) The `onclick` event in the demos also performs an `rpc` call, while the present project does not.
 
