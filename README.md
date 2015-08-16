@@ -210,7 +210,7 @@ Thanks for any help getting this to work!
 
 <a id="observation_1">**An interesting "idiom":**</a>
 
-In particular, I have consciously copied an interesting "idiom" which I believe is found in the Ur/Web [Increment](http://www.impredicative.com/ur/demo/increment.html) and [Batch](http://www.impredicative.com/ur/demo/batch.html) demos, involving the first part of the `signal` attribute of the `<dyn>` tag (and, in the case of the Batch demo, an interplay with the type expected by the `show` function):
+In particular, I have consciously copied an interesting "idiom" which I believe is found in the Ur/Web [Increment](http://www.impredicative.com/ur/demo/increment.html) and [Batch](http://www.impredicative.com/ur/demo/batch.html) demos, involving the first part of the `signal` attribute of the `<dyn>` tag (and, in the case of the Batch demo, an interplay with the type expected by the `show'` function):
 
 - [`<dyn signal={n <- signal src; return <xml>{[n]}</xml>}/>`](https://github.com/urweb/urweb/blob/master/demo/increment.ur#L8)
 
@@ -234,7 +234,7 @@ which seems to indicate that `signal` takes something of type `source t` and ret
 
 (c) Meanwhile, judging by the `case of` expression in [the (auxiliary) function `show'` in the Batch demo](https://github.com/urweb/urweb/blob/master/demo/batch.ur#L23-L33), this function appears to be defined to take an argument either of the form `Nil` or of the form `Cons ((id, a), ls)` - ie it does *not* appear to take something of a "monadic" type `source t`, but instead of a ("simpler") type `t`.
 
-So, based on *my reading of the manual*, I would not have felt confident using the "idiom" described above, involving:
+So, *based on my reading of the manual*, I would not have felt confident using the "idiom" described above, involving:
 
 - [`ls <- signal lss;...`](https://github.com/urweb/urweb/blob/master/demo/batch.ur#L35) and
 
@@ -242,13 +242,11 @@ So, based on *my reading of the manual*, I would not have felt confident using t
 
 since I would be afraid the types would conflict.
 
-But based on the *actual working code in the Buffer demo*, I felt confident writing my code in a similar fashion:
+But *based on the actual working code in the Buffer demo*, I felt confident writing my code in a similar fashion:
 
-(a) calling `signal` on `aFilterSource` and assigning the result to `aFilterSignal`
+(a) [calling `signal` on `aFilterSource` and assigning the result to `aFilterSignal`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L28)
 
-[<dyn signal={aFilterSignal <- signal aFilterSource; return (showRows' aFilterSignal)}/>](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L27-L33)
-
-(b) and then using `aFilterSignal` essentially as a ("simple") `string` type, for the argument being passed into [(auxiliary) function `showRows'`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L7-L25).
+(b) and then using `aFilterSignal` essentially as a ("simple") `string` type, for the argument being passed into [(auxiliary) function `showRows'`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L31).
 
 I am not sure why this appears to be working correctly. 
 
