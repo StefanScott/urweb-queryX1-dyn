@@ -91,7 +91,7 @@ This *might* be a problem (and it *might* actually be the cause of the [compile 
 
 The present example `queryX1dy` is different in two ways:
 
-(a) Instead of having a `<button>` on the page, it has a [`<ctextbox source={theFilterSource}>`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L41-L43), which receives the user's input, thus automatically changing [`theFilterSource`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L37).
+(a) Instead of having a `<button>` on the page, it has a [`<ctextbox source={theFilterSource}/>`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L41-L43), which receives the user's input, thus automatically changing [`theFilterSource`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L37).
 
 (b) The `onclick` event in the Increment and Batch demos also *writes* some data on the server (batch-inserting records, or incrementing a sequence, respectively). 
 
@@ -195,7 +195,7 @@ Again, I am not completely certain that no `rpc` call is needed in the present p
 
 *(3) Likely cause of error:*
 
-It seems more likely that the error is a simpler one - not involving some mis-connection in the "wiring" between the source and the signal, but instead involving:
+It seems more likely that the error has a simpler cause - not involving some mis-connection in the "wiring" between the source and the signal, but instead involving:
 
 - *(most likely, since the compile error complains about [lines 27-33 of queryX1dyn.ur](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L27-L33))* a conflict between the type of the value [return ( showRows' aFilterSignal )](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L30-L31) versus what the `<dyn>` tag in function `showRows` expects (or what some "parent" `<xml>` fragment within that same function expects); or
 
