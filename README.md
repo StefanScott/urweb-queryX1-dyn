@@ -242,7 +242,7 @@ So, *based on my reading of the manual*, I would not have felt confident using t
 
 since I would be afraid the types would conflict.
 
-But *based on the actual working code in the Buffer demo*, I felt confident writing my code in a similar fashion:
+But *based on the actual working code in the Batch demo*, I felt confident writing my code in a similar fashion:
 
 (a) [calling `signal` on `aFilterSource` and assigning the result to `aFilterSignal`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L28); and then
 
