@@ -27,7 +27,7 @@ The page contains only the following two elements:
 
 The code connecting the `source` and the `signal` is closely modeled on:
 
-(1) the Ur/Web [Increment](http://www.impredicative.com/ur/demo/increment.html) and [Batch](http://www.impredicative.com/ur/demo/batch.html) demos [See Observation below](#observation);
+(1) the Ur/Web [Increment](http://www.impredicative.com/ur/demo/increment.html) and [Batch](http://www.impredicative.com/ur/demo/batch.html) demos; [See Observation (1) below](#observation_1)
 
 (2) the Ur/Web [`<cselect>`](https://github.com/urweb/urweb/blob/master/tests/cselect.ur) test;
 
@@ -177,7 +177,7 @@ Thanks for any help getting this to work!
 
 ###
 
-<a id="contact_form">**Observation**</a>
+<a id="observation_1">**Observation (1)**</a>
 
 In particular, I have consciously copied an interesting "idiom" which I believe is found in both of these demos:
 
