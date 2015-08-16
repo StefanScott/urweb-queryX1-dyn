@@ -54,13 +54,13 @@ The compile error says `Have: xml` vs `Need: transaction` for [lines 27-33](http
 
 **Questions:**
 
-(1) Is the result type of [`( showRows' aFilterSignal )`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L31) (apparently `transaction xml`) compatible with all three of the following parent / containing "contexts":
+(1) Is the result type of [`( showRows' aFilterSignal )`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L31) (apparently `transaction xml`) compatible with all three of the following parent / containing "contexts" listed below?
 
 (a) what is expected by the [`<dyn signal={...}>`](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L27-L33) tag containing this function call; and/or
 
 (b) what is expected by [the "parent" `<xml>` tag](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L27-L33) containing the `<dyn>` tag; and/or
 
-(c) what is expected by [the `<xml><body>` tag in the `main` function](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L40-L45) where this value is used?
+(c) what is expected by [the `<xml><body>` tag in the `main` function](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L40-L45) where this value is used.
 
 (2) Does Ur/Web impose some (general, universal) restriction on the *result* type of the code used in a `<dyn signal={...}>` tag?
 
