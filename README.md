@@ -64,7 +64,7 @@ The part of the code which the compiler is complaining about is [lines 27-33](ht
 
 (2) Does Ur/Web impose some (general, universal) restriction on the *result* type of the code used in a `<dyn signal={...}>` tag?
 
-It seems very possible to me that answing the above questions might help to understand (and resolve) the compile error (reproduced in full [below](#compile_error)).
+It seems very possible to me that answering the above questions might help to understand (and resolve) the compile error (reproduced in full [below](#compile_error)).
 
 
 **Similarities and differences between `queryX1dyn.ur` and previous work:**
@@ -191,13 +191,13 @@ However, I believe that in the case of a `<ctextbox>` having a `source` attribut
 
 However, I believe that no `rpc` call is necessary in the present project, because this project only *reads* data from the server, while the demos *write* data on the server.
 
-Again, I am not completely certain that no `rpc` call is needed in the present project - because although this project does not perform a (transactional) write on the server, it *does* perform a (transactional) "read" on the server.
+Again, I am not completely certain that no `rpc` call is needed in the present project - because although this project does not perform a (transactional) "write" on the server, it *does* perform a (transactional) "read" on the server.
 
 *(3) Likely cause of error:*
 
 It seems more likely that the error is a simpler one - not involving some mis-connection in the "wiring" between the source and the signal, but instead involving:
 
-- *(most likely, since the compile error complains about [lines 27-33 of queryX1dyn.ur](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L27-L33))* a conflict between the type of the value [return ( showRows' aFilterSignal )](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L30-L31) versus what the `dyn` tag in function `showRows` expects (what some "parent" `<xml>` fragment within that same function expects); or
+- *(most likely, since the compile error complains about [lines 27-33 of queryX1dyn.ur](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L27-L33))* a conflict between the type of the value [return ( showRows' aFilterSignal )](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L30-L31) versus what the `<dyn>` tag in function `showRows` expects (or what some "parent" `<xml>` fragment within that same function expects); or
 
 - *(less likely, because the compile error doesn't mention these lines?)* possibly some incompatibility between [{showRows theFilterSource}](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L44) and what the `<xml>` in the `main` function expects.
 
@@ -210,7 +210,7 @@ Thanks for any help getting this to work!
 
 <a id="observation_1">**An interesting "idiom":**</a>
 
-In particular, I have consciously copied an interesting "idiom" which I believe is found in the Ur/Web [Increment](http://www.impredicative.com/ur/demo/increment.html) and [Batch](http://www.impredicative.com/ur/demo/batch.html) demos, involving the first part of the `signal` attribute of the `dyn` tag (and, in the case of the Batch demo, an interplay with the type expected by the `show` function):
+In particular, I have consciously copied an interesting "idiom" which I believe is found in the Ur/Web [Increment](http://www.impredicative.com/ur/demo/increment.html) and [Batch](http://www.impredicative.com/ur/demo/batch.html) demos, involving the first part of the `signal` attribute of the `<dyn>` tag (and, in the case of the Batch demo, an interplay with the type expected by the `show` function):
 
 - [`<dyn signal={n <- signal src; return <xml>{[n]}</xml>}/>`](https://github.com/urweb/urweb/blob/master/demo/increment.ur#L8)
 
@@ -230,7 +230,7 @@ Also observe the following interplay between the types in the Batch demo:
 
   `val signal : t ::: Type → source t → signal t`
 
-which seems (to me) to indicate that `signal` takes something of type `source t` and returns something of type `signal t`.
+which seems to indicate that `signal` takes something of type `source t` and returns something of type `signal t`.
 
 (c) Meanwhile, judging by the `case of` expression in [the (auxiliary) function `show'` in the Batch demo](https://github.com/urweb/urweb/blob/master/demo/batch.ur#L23-L33), this function appears to be defined to take an argument either of the form `Nil` or of the form `Cons ((id, a), ls)` - ie it does *not* appear to take something of a "monadic" type `source t`, but instead of a ("simpler") type `t`.
 
@@ -244,7 +244,7 @@ since I would be afraid the types would conflict.
 
 But based on the *actual working code in the Buffer demo*, I felt confident writing my code in a similar fashion:
 
-(a) calling `signal` on `aFilterSource` to get `aFilterSignal`
+(a) calling `signal` on `aFilterSource` and assigning the result to `aFilterSignal`
 
 [<dyn signal={aFilterSignal <- signal aFilterSource; return (showRows' aFilterSignal)}/>](https://github.com/StefanScott/urweb-queryX1-dyn/blob/master/queryX1dyn.ur#L27-L33)
 
@@ -252,7 +252,7 @@ But based on the *actual working code in the Buffer demo*, I felt confident writ
 
 I am not sure why this appears to be working correctly. 
 
-I might be tempted to make a wild conjecture that the `;` after `aFilterSignal <- signal aFilterSource` is perhaps somehow "unpacking" `aFilterSignal`, converting it from a value of some "monadic" type `signal t` to a value of some "simpler" `t`, in order to allow it to be used as an argument to `showRows'`, which as we know expects a value of a "simpler" type `string` and not a value of a "monadic" type.
+I might be tempted to make a wild conjecture that the `;` after `aFilterSignal <- signal aFilterSource` is perhaps somehow "unpacking" ("unboxing") `aFilterSignal`, converting it from a value of some "monadic" type `signal t` to a value of some "simpler" type `t`, in order to allow it to be used as an argument to `showRows'`, which as we know expects a value of a "simpler" type `string` and not a value of a "monadic" type.
 
-However, [as Istvan Chung helpfully explained in an earlier thread on the Mailing list, you cannot "unpack" or "unbox" a value from a "monadic" type](http://www.impredicative.com/pipermail/ur/2015-July/002079.html) - so I have simply accepted that this interesting "idiom" in the Batch demo does indeed work, and I have used it as a guideline grabbing the source, connecting it to a signal, and passing it to a function in the present project.
+However, [as Istvan Chung helpfully explained in an earlier thread on the Mailing list, you cannot "unpack" or "unbox" a value from a "monadic" type](http://www.impredicative.com/pipermail/ur/2015-July/002079.html) - so I have simply accepted that this interesting "idiom" in the Batch demo does indeed work, and I have used it as a guideline for grabbing the source, connecting it to a signal, and passing it to a function in the present project.
 
